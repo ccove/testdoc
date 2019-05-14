@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+
+{% block title %}文档列表{% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <style>
+        .container, .container-fluid {
+            padding-left: 0;
+        }
+
+        .right-content {
+            top: 64PX;
+        }
+
+        .main1 {
+            font-size: 24px;
+
+        }
+
+        .main1 a {
+            color: #2b669a;
+        }
+
+        .main1 a:hover {
+            color: red;
+        }
+
+        .lastnav {
+            position: absolute;
+            top: 470px;
+            left: 30%;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div id="right-content" class="right-content">
+        <main class="container-fluid">
+            <div class="container">
+                <h3>我的共享</h3>
+                {% if files %}
+                    <table class="table table-striped">
+
+                        <tbody>
+                        <tr>
+                            <td>文件名</td>
+                            <td>文件分类</td>
+                            <td>文件格式</td>
+                            <td>文件大小</td>
+                            <td>上传时间</td>
+                            <td>上传者</td>
+                            <td>下载次数</td>
+                            <td>取消共享</td>
+                            <td>预览</td>
+                            <td>下载</td>
+                        </tr>
+                        {% for file in files %}
+                            <tr>
+                                <td>{{ file.file_name }}</td>
+                                <td>{{ file.get_file_classify_display }}</td>
+                                <td>{{ file.file_format }}</td>
+                                <td>{{ file.file_file.size | filesizeformat }}</td>
+                                <td>{{ file.file_time }}</td>
+                                <td>{{ file.file_owner }}</td>
+                                <td>&nbsp;&nbsp;&nbsp;&nbsp;{{ file.file_downloads }}&nbsp;&nbsp;次</td>
+                                <td><a class="qxgx" id="{{ file.id }}">取消共享</a></td>
+                                {% if 'jpg' == file.file_format or 'png' == file.file_format or 'gif' == file.file_format %}
+                                    <td><a href="{{ file.file_file.url }}">预览</a></td>
+                                {% else %}
+                                    <td>
+                                        <a href="http://ow365.cn/?i=18291&furl=http://www.unstop.top:7713/user/download{{ file.file_file.url }}">预览</a>
+                                    </td>
+                                {% endif %}
+                                <td><a href="/user/download{{ file.file_file.url }}/">下载</a></td>
+                            </tr>
+                        {% endfor %}
+
+                        {#                        分页开始#}
+                        <nav aria-label="Page navigation" class="lastnav">
+                            <ul class="pagination">
+                                <li>
+                                    {#                                判断前一页是否存在#}
+                                    {% if page.has_previous %}
+                                        <a href="/user/me_share?page={{ page.previous_page_number }}"
+                                           aria-label="Previous">
+                                            <span aria-hidden="true">上一页</span>
+                                        </a>
+                                    {% else %}
+                                        <a href="/user/me_share?page=1" aria-label="Previous">
+                                            <span aria-hidden="true">上一页</span>
+                                        </a>
+                                    {% endif %}
+                                </li>
+                                {% for i in page_range %}
+                                    <li><a href="/user/me_share?page={{ i }}">{{ i }}</a></li>
+                                {% endfor %}
+
+                                <li>
+                                    {% if page.has_next %}
+                                        <a href="/user/me_share?page={{ page.next_page_number }}" aria-label="Next">
+                                            <span aria-hidden="true">下一页</span>
+                                        </a>
+                                    {% else %}
+                                        <a href="/user/me_share?page={{ page_count }}" aria-label="Next">
+                                            <span aria-hidden="true">下一页</span>
+                                        </a>
+                                    {% endif %}
+                                </li>
+                            </ul>
+                        </nav>
+                        {#                        分页结束#}
+
+                        </tbody>
+                    </table>
+
+                {% else %}
+                    <p class="main1">抱歉，您的系统中暂无您共享的文档，您可以&nbsp;&nbsp;<a href="/user/show">点击这里</a>&nbsp;&nbsp;共享您的文档！
+                    </p>
+                {% endif %}
+            </div>
+        </main>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+
+        $('body').on('click', '.qxgx', function () {
+            var id = parseInt($(this).attr('id'));
+            (function qxgx() {
+                var msg = "您确认取消共享吗？\n\n请确认！";
+                if (confirm(msg) == true) {
+                    location.href = '/user/share_cacle/' + id + '/'
+                } else {
+                    return false;
+                }
+            })()
+        });
+    </script>
+
+
+{% endblock %}

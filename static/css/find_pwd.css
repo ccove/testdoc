@@ -1,0 +1,15 @@
+.main{
+width: 434px;
+    position: relative;
+}
+.main p{
+    float: left;
+    color: #333;
+    font-size: 18px;
+    position: absolute;
+    top: -44px;
+}
+.register{
+    width: 379.5px;
+    margin-top: 6%;
+}

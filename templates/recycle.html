@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+
+{% block title %}回收站{% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <style>
+        .container, .container-fluid {
+            padding-left: 0;
+        }
+
+        .right-content {
+            top: 64PX;
+        }
+
+        .main1 {
+            font-size: 24px;
+
+        }
+
+        .main1 a {
+            color: #2b669a;
+        }
+
+        .main1 a:hover {
+            color: red;
+        }
+
+        .lastnav {
+            position: absolute;
+            top: 470px;
+            left: 30%;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div id="right-content" class="right-content">
+        <main class="container-fluid">
+            <div class="container">
+                <h3>回收站</h3>
+                {% if files %}
+                    <table class="table table-striped">
+
+                        <tbody>
+                        <tr>
+                            <td>文件名</td>
+                            <td>文件格式</td>
+                            <td>文件大小</td>
+                            <td>上传时间</td>
+                            <td>上传者</td>
+                            <td>还原</td>
+                        </tr>
+                        {% for file in files %}
+                            <tr>
+                                <td>{{ file.file_name }}</td>
+                                <td>{{ file.file_format }}</td>
+                                <td>{{ file.file_file.size | filesizeformat }}</td>
+                                <td>{{ file.file_time }}</td>
+                                <td>{{ file.file_owner }}</td>
+                                <td><a class="hy" id="{{ file.id }}">还原</a></td>
+                            </tr>
+                        {% endfor %}
+
+                        {#                        分页开始#}
+                        <nav aria-label="Page navigation" class="lastnav">
+                            <ul class="pagination">
+                                <li>
+                                    {#                                判断前一页是否存在#}
+                                    {% if page.has_previous %}
+                                        <a href="/user/recycle?page={{ page.previous_page_number }}"
+                                           aria-label="Previous">
+                                            <span aria-hidden="true">上一页</span>
+                                        </a>
+                                    {% else %}
+                                        <a href="/user/recycle?page=1" aria-label="Previous">
+                                            <span aria-hidden="true">上一页</span>
+                                        </a>
+                                    {% endif %}
+                                </li>
+                                {% for i in page_range %}
+                                    <li><a href="/user/recycle?page={{ i }}">{{ i }}</a></li>
+                                {% endfor %}
+
+                                <li>
+                                    {% if page.has_next %}
+                                        <a href="/user/recycle?page={{ page.next_page_number }}" aria-label="Next">
+                                            <span aria-hidden="true">下一页</span>
+                                        </a>
+                                    {% else %}
+                                        <a href="/user/recycle?page={{ page_count }}" aria-label="Next">
+                                            <span aria-hidden="true">下一页</span>
+                                        </a>
+                                    {% endif %}
+                                </li>
+                            </ul>
+                        </nav>
+                        {#                        分页结束#}
+
+                        </tbody>
+                    </table>
+
+                {% else %}
+                    <p class="main1">您的系统回收站中暂时还没有已删除文档，可以&nbsp;&nbsp;<a href="/user/show">点击这里</a>&nbsp;&nbsp;返回全部文档界面！
+                    </p>
+                {% endif %}
+            </div>
+        </main>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <script>
+
+        $('body').on('click', '.hy', function () {
+            var id = parseInt($(this).attr('id'));
+            (function hy() {
+                var msg = "您确认还原已删除文件吗？\n\n请确认！";
+                if (confirm(msg) == true) {
+                    location.href = '/user/recover/' + id + '/'
+                } else {
+                    return false;
+                }
+            })()
+        });
+
+
+    </script>
+{% endblock %}

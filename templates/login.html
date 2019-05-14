@@ -1,0 +1,89 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <title>登陆</title>
+
+    <link rel="stylesheet" href="{% static 'css/common.css' %}" type="text/css"/>
+    <link rel="stylesheet" href="{% static 'css/register.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" type="text/css"/>
+    <style>
+        .dl:hover {
+            color: red;
+        }
+    </style>
+
+</head>
+
+<body>
+<!--顶部-->
+<div class="nav">
+    <div class="nav cl">
+        <div class="nav_z z">
+            <p>教学文档管理系统</p>
+        </div>
+        <div class="nav_y y">
+            {% if request.session.is_login %}
+                <a href="/user/index">当前在线：{{ request.session.user_name }}</a>
+                <span>    </span>
+                <a href="/user/logout">退出</a>
+            {% else %}
+                <a href="/user/login" class="dl">登录</a>
+                <span>    </span>
+                <a href="/user/register">注册</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+<!--顶部结束-->
+
+<div class="box">
+    <div class="main cl">
+        <div class="main_z z">
+            <img src="{% static 'images/register02.png' %}"/>
+        </div>
+        <div class="main_y y">
+            <div class="main_y_title">
+                欢迎使用
+            </div>
+            <div class="meta">
+            </div>
+            <div class="main_y_content">
+                <form class='form-login' action="/user/login" method="post">
+                    {#                    {% csrf_token %}#}
+                    {% if message %}
+                        <div class="alert alert-warning">{{ message }}</div>
+                    {% endif %}
+                    <div class="main_input">
+                        <i>账号:</i>
+                        <input type="text" placeholder="请输入姓名或邮箱" class="phone" name="name"/>
+                    </div>
+
+                    <div class="main_input">
+                        <i>密码:</i>
+                        <input type="password" placeholder="请输入密码" class="password" name="pwd" maxlength="18"/>
+                    </div>
+
+                    <button type="submit" class="register">登&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;陆</button>
+
+                    <div class="zc">
+                        从这里出发&nbsp;&nbsp;<a href="/user/register">注册新账号</a>
+                    </div>
+
+                </form>
+
+                <div class="main_y_content_buttom">
+                    <a href="/user/findpwd">忘记密码?</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="{% static 'js/jquery-2.2.3.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/register.js' %}"></script>
+
+</body>
+</html>

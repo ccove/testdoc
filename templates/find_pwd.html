@@ -1,0 +1,52 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <title>忘记密码</title>
+
+    <link rel="stylesheet" href="{% static 'css/common.css' %}" type="text/css"/>
+    <link rel="stylesheet" href="{% static 'css/register.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css/find_pwd.css' %}"/>
+
+</head>
+
+<body>
+<!--顶部-->
+<div class="nav">
+    <div class="nav cl">
+        <div class="nav_z z">
+            <p>教学文档管理系统</p>
+        </div>
+        <div class="nav_y y">
+            {% if request.session.is_login %}
+                <a href="#">当前在线：{{ request.session.user_name }}</a>
+                <span>    </span>
+                <a href="/user/logout">退出</a>
+            {% else %}
+                <a href="/user/login">登录</a>
+                <span>    </span>
+                <a href="/user/register">注册</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+<!--顶部结束-->
+<div class="main">
+    <p>通过邮箱重置密码</p>
+    <form action="/user/findpwd" method="post">
+        {#        {% csrf_token %}#}
+        {% if message %}
+            <div class="alert alert-warning">{{ message }}</div>
+        {% endif %}
+        <div class="main_input">
+            <input type="email" placeholder="请输入您的邮箱" class="phone" name="email"/>
+        </div>
+        <button type="submit" class="register">提&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;交</button>
+    </form>
+</div>
+
+
+</body>
+</html>

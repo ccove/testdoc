@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %}文档上传{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <style>
+        .right-content {
+            top: 80px;
+            width: 900px;
+        }
+
+        #id_file_name, #id_file {
+            background-color: #fff;
+        }
+
+        .container {
+            width: 900px;
+        }
+
+        .btn-info {
+            position: relative;
+            top: 20px;
+            width: 110px;
+        }
+
+        .gn p:nth-of-type(3) {
+            margin-top: 30px;
+
+        }
+
+        .gn select {
+            width: 94px;
+            height: 30px;
+            border-radius: 4px;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div id="right-content" class="right-content">
+        <main class="container-fluid">
+            <div class="container">
+                {% if heading %}
+                    <h3>{{ heading }}</h3>
+                {% endif %}
+                <form action="/user/upload" method="post" enctype="multipart/form-data" class="gn">
+                    {#  {% csrf_token %}#}
+                    {{ form.as_p }}
+                    <button class="btn btn-info form-control " type="submit" value="submit">提&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;交</button>
+                </form>
+            </div>
+        </main>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript" src="{% static 'node_modules/jquery/dist/jquery.js' %}"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+        $('body').on('click', $('.gn select'), function () {
+            $('.gn select').css('border', 'rgb(169,169,169) 1px solid')
+        })
+    </script>
+{% endblock %}

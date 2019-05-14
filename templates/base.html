@@ -1,0 +1,193 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <title>{% block title %}base{% endblock %}</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="{% static 'css/common.css' %}" type="text/css"/>
+    <link rel="stylesheet" href="{% static 'css/index.css' %}" type="text/css" media="screen"/>
+    <link rel="stylesheet" href="{% static 'css/register.css' %}" type="text/css" media="screen"/>
+
+    {% block css %}{% endblock %}
+    <style>
+        .menu_list {
+            width: 236px;
+            margin: 0;
+            margin-top: 64px;
+        }
+
+        .menu_head {
+            height: 47px;
+            line-height: 47px;
+            padding-left: 38px;
+            font-size: 14px;
+            color: #525252;
+            cursor: pointer;
+            border: 1px solid #f1f1f1;
+            position: relative;
+            margin: 0px;
+            font-weight: bold;
+            background: #51a9f18c;
+        }
+
+        .menu_list .current {
+            background: #9fd0f7;
+        }
+
+        .menu_nva {
+            line-height: 38px;
+            border-left: 1px solid #51a9f18c;
+            backguound: #fff;
+            border-right: 1px solid #51a9f18c;
+        }
+
+        .menu_nva a {
+            display: block;
+            height: 38px;
+            line-height: 38px;
+            padding-left: 38px;
+            color: #777777;
+            background: #fff;
+            text-decoration: none;
+            border-bottom: 1px solid #51a9f18c;
+        }
+
+        .menu_nva a:hover {
+            text-decoration: none;
+        }
+
+        #firstpaneDiv {
+            float: left;
+        }
+
+        .bd {
+            position: absolute;
+            left: 60%;
+        }
+
+        .head {
+            position: absolute;
+            height: 34px;
+            padding: 6px 12px;
+            font-size: 14px;
+            line-height: 1.42857143;
+            color: #555;
+            background-color: #fff;
+            background-image: none;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        {#left: 75%;#} top: 15px;
+        }
+
+        body .iconfont {
+            font-size: 20px;
+            position: absolute;
+            top: 18px;
+            left: 200px;
+            z-index: 333;
+        }
+
+        .fp {
+            position: absolute;
+            top: 26px;
+            color: red;
+            left: 350px;
+        }
+
+    </style>
+    <link rel="stylesheet" href="{% static 'font/font1/iconfont.css' %}" type="text/css" media="screen"/>
+
+</head>
+<body>
+<!--顶部-->
+<div class="nav">
+    <div class="nav cl">
+        <div class="nav_z z">
+            <p>教学文档管理系统</p>
+        </div>
+        <a href="/user/index" class="fp">首页</a>
+
+        <form action="/user/serach" method="get" class="bd">
+            <input class="head" name="keyword" type="search" style="width: 230px;" placeholder="请输入关键词..." value="">
+            <button class="iconfont" type="submit">&#xe623;</button>
+        </form>
+
+        <div class="nav_y y">
+            {% if request.session.is_login %}
+                <a href="/user/person">当前在线：{{ request.session.user_name }}</a>
+                <span>    </span>
+                <a href="/user/logout">退出</a>
+            {% else %}
+                <a href="/user/login">登录</a>
+                <span>    </span>
+                <a href="/user/register">注册</a>
+            {% endif %}
+        </div>
+    </div>
+
+</div>
+<!--顶部结束-->
+
+<!--菜单-->
+
+<div id="firstpaneDiv" class="menu_list">
+    <h3 class="menu_head current">我的文档</h3>
+    <div style="display:block" class="menu_nva">
+        <a href="/user/upload">上传文档</a>
+        <a href="/user/show">全部文档</a>
+        <a href="/user/one">教学资源</a>
+        <a href="/user/two">课程内容</a>
+        <a href="/user/three">学生作业</a>
+        <a href="/user/four">普通文档</a>
+        <a href="/user/five">其他文档</a>
+    </div>
+    <h3 class="menu_head">共享文档</h3>
+    <div style="display:none" class="menu_nva">
+        <a href="/user/me_share">我的共享</a>
+        <a href="/user/all_share">其他共享</a>
+    </div>
+    <h3 class="menu_head">回收站</h3>
+    <div style="display:none" class="menu_nva">
+        <a href="/user/recycle">回收站</a>
+{#        <a href="/user/recycle">回收站二</a>#}
+    </div>
+    <h3 class="menu_head">个人信息</h3>
+    <div style="display:none" class="menu_nva">
+        <a href="/user/person">基本信息</a>
+        <a href="/user/reset">修改密码</a>
+
+    </div>
+</div>
+<!--菜单end-->
+
+
+<script type="text/javascript" src="{% static 'js/jquery-2.2.3.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/index.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/jquery-1.8.3.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'page/pageGroup.js' %}"></script>
+
+
+{% block js %} {% endblock %}
+
+{% block content %}{% endblock %}
+</body>
+<script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#firstpaneDiv .menu_nva:eq(0)").show();
+        $("#firstpaneDiv h3.menu_head").click(function () {
+            $(this).addClass("current").next("div.menu_nva").slideToggle(200).siblings("div.menu_nva").slideUp("slow");
+            $(this).siblings().removeClass("current");
+        });
+        $("#secondpane .menu_nva:eq(0)").show();
+        $("#secondpane h3.menu_head").mouseover(function () {
+            $(this).addClass("current").next("div.menu_nva").slideDown(400).siblings("div.menu_nva").slideUp("slow");
+            $(this).siblings().removeClass("current");
+        });
+    });
+</script>
+</html>

@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %}个人信息{% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" type="text/css"/>
+    <style>
+        .container, .container-fluid {
+            padding-left: 0;
+        }
+
+        .right-content {
+            top: 64PX;
+        }
+
+        form {
+            margin-top: 80px;
+            margin-left: 20px;
+            float: left;
+            width: 720px;
+        }
+
+        .box-head {
+            border-bottom: 1px solid #DDDDD9;
+        }
+
+        .box-title {
+            display: inline-block;
+            height: 36px;
+            line-height: 36px;
+            padding-bottom: 3px;
+            border-bottom: 2px solid #44B035;
+            margin-bottom: -1px;
+            min-width: 80px;
+            font-weight: 200;
+            font-size: 18px;
+
+        }
+
+        label {
+            font-family: "Microsoft Yahei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            color: #222222;
+            font-weight: 300;
+        }
+
+        .header {
+            margin-bottom: 20px;
+        }
+
+    </style>
+{% endblock %}
+
+{% block content %}
+
+    <form action="/user/person" method="post">
+        <div class="header">
+            <div class="box-head">
+                <strong class="box-title">基本信息</strong>
+            </div>
+        </div>
+
+        <div class="form-group" id="form-group">
+            <label for="exampleInputPassword1">姓名</label>
+            <input type="text" class="form-control" readonly="readonly" id="exampleInputPassword1" value="{{ name1 }}"
+                   name="username">
+        </div>
+
+        <div class="form-group">
+            <label for="exampleInputEmail1">邮箱</label>
+            <input type="email" class="form-control" id="exampleInputEmail1" value="{{ email1 }}" name="email">
+        </div>
+
+        <div class="form-group">
+            <label for="exampleInputPassword1">院系</label>
+            <input type="text" class="form-control" id="exampleInputPassword1" value="{{ department1 }}" name="dep">
+        </div>
+
+        <div class="form-group allsex">
+            <label for="exampleInputPassword1">性别</label>
+            <br>
+
+        </div>
+
+        <script type="text/javascript" src="{% static 'node_modules/jquery/dist/jquery.js' %}"></script>
+        <script>
+            console.log($('.allsex'))
+            var sex1 = `<label for="man">男</label>&nbsp;&nbsp;
+                <input type="radio" name="sex" value="{{ sex1 }}" checked="checked" id="man">&nbsp;&nbsp;&nbsp;&nbsp;
+                <label for="wman">女</label>&nbsp;&nbsp;
+                <input type="radio" name="sex" value="{{ sex1 }}" id="wman">`
+
+            var sex2 = ` <label for="man">男</label>&nbsp;&nbsp;
+                <input type="radio" name="sex" value="{{ sex1 }}" id="man">&nbsp;&nbsp;&nbsp;&nbsp;
+                <label for="wman">女</label>&nbsp;&nbsp;
+                <input type="radio" name="sex" value="{{ sex1 }}" checked="checked" id="wman">`
+
+            if ({{ sex1 }}) {
+                $('.allsex').append(sex1)
+            } else {
+                $('.allsex').append(sex2)
+            }
+
+        </script>
+
+        <div class="form-group">
+            <label for="exampleInputPassword1">个人描述</label>
+            <textarea rows="7" cols="98" STYLE="border:1px solid #6CABE7;" class="textarea" id="exampleInputPassword1"
+                      name="per">
+                {% if per1 %}
+                    {{ per1 }}
+                {% else %}
+                    个人信息
+                {% endif %}
+            </textarea>
+        </div>
+        <script>
+            var textarea = document.querySelector('textarea');
+            textarea.onfocus = function () {
+                textarea.innerHTML = ""
+            }
+        </script>
+        </div>
+
+        <button type="submit" class="btn btn-default">保存修改</button>
+    </form>
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript" src="{% static 'node_modules/jquery/dist/jquery.js' %}"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+{% endblock %}

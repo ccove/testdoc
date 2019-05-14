@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %}重置{% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" type="text/css"/>
+    <style>
+        .container, .container-fluid {
+            padding-left: 0;
+        }
+
+        .right-content {
+            top: 64PX;
+        }
+
+        form {
+            margin-top: 80px;
+            margin-left: 20px;
+            float: left;
+            width: 720px;
+        }
+
+        label {
+            font-family: "Microsoft Yahei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            color: #222222;
+            font-weight: 300;
+        }
+
+        .box-head {
+            border-bottom: 1px solid #DDDDD9;
+        }
+
+        .box-title {
+            display: inline-block;
+            height: 36px;
+            line-height: 36px;
+            padding-bottom: 3px;
+            border-bottom: 2px solid #44B035;
+            margin-bottom: -1px;
+            min-width: 80px;
+            font-weight: 200;
+            font-size: 18px;
+
+        }
+
+        .header {
+            margin-bottom: 20px;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+
+    <form action="/user/reset" method="post">
+        {#        {% csrf_token %}#}
+        <div class="header">
+            <div class="box-head">
+                <strong class="box-title">修改密码</strong>
+            </div>
+        </div>
+        {% if message %}
+            <div class="alert alert-warning">{{ message }}</div>
+        {% endif %}
+        <div class="form-group">
+            <label for="exampleInputPassword1">原始密码</label>
+            <input type="password" class="form-control" id="exampleInputPassword1" name="old_pwd">
+        </div>
+
+        <div class="form-group">
+            <label for="exampleInputEmail1">新密码</label>
+            <input type="password" class="form-control" id="exampleInputEmail1" name="newpwd1">
+        </div>
+
+        <div class="form-group">
+            <label for="exampleInputPassword1">确认密码</label>
+            <input type="password" class="form-control" id="exampleInputPassword1" name="newpwd2">
+        </div>
+        <button type="submit" class="btn btn-default">保存修改</button>
+    </form>
+
+{% endblock %}
